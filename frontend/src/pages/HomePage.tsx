@@ -38,7 +38,7 @@ export default function HomePage() {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedCategoryFilter, setSelectedCategoryFilter] = useState("");
-    const [dateFilter, setDateFilter] = useState<'all' | 'upcoming' | 'past'>('all');
+    const [dateFilter] = useState<'all' | 'upcoming' | 'past'>('all');
 
     // --- VERİ ÇEKME ---
     const fetchData = async () => {
