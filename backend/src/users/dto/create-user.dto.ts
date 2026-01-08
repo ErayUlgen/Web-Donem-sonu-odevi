@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, MinLength, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -16,11 +16,14 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  // --- YENİ EKLENEN KISIM ---
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
   @MinLength(6, { message: 'Şifre en az 6 karakter olmalı' })
   password: string;
-  // --------------------------
+
+  @ApiProperty({ required: false, enum: ['user', 'admin'] })
+  @IsString()
+  @IsOptional()
+  role?: string;
 }

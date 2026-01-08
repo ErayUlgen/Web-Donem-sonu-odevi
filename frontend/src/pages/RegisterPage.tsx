@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
 
 export default function RegisterPage() {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', password: '', role: 'user' });
   const navigate = useNavigate();
 
   const handleRegister = async (e: React.FormEvent) => {
@@ -50,6 +50,18 @@ export default function RegisterPage() {
           <div style={{ position: 'relative' }}>
             <Lock size={20} style={{ position: 'absolute', left: '15px', top: '50%', transform: 'translateY(-50%)', color: '#9ca3af' }} />
             <input type="password" placeholder="Şifre" value={formData.password} onChange={e => setFormData({ ...formData, password: e.target.value })} required style={inputStyle} />
+          </div>
+
+          {/* ROL SEÇİMİ */}
+          <div style={{ display: 'flex', gap: '15px', padding: '5px' }}>
+            <label style={{ flex: 1, cursor: 'pointer', border: formData.role === 'user' ? `2px solid ${colors.accent}` : '1px solid #e2e8f0', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: formData.role === 'user' ? '#ecfdf5' : 'white', transition: 'all 0.2s' }}>
+              <input type="radio" name="role" value="user" checked={formData.role === 'user'} onChange={e => setFormData({ ...formData, role: e.target.value })} style={{ accentColor: colors.accent }} />
+              <span style={{ fontWeight: '600', color: colors.text }}>Kullanıcı</span>
+            </label>
+            <label style={{ flex: 1, cursor: 'pointer', border: formData.role === 'admin' ? `2px solid ${colors.accent}` : '1px solid #e2e8f0', borderRadius: '12px', padding: '10px', display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: formData.role === 'admin' ? '#ecfdf5' : 'white', transition: 'all 0.2s' }}>
+              <input type="radio" name="role" value="admin" checked={formData.role === 'admin'} onChange={e => setFormData({ ...formData, role: e.target.value })} style={{ accentColor: colors.accent }} />
+              <span style={{ fontWeight: '600', color: colors.text }}>Yönetici (Admin)</span>
+            </label>
           </div>
 
           <button type="submit" style={{ backgroundColor: '#4a4540', color: 'white', padding: '14px', borderRadius: '12px', border: 'none', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer', marginTop: '10px' }}>

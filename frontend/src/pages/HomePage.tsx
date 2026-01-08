@@ -204,10 +204,12 @@ export default function HomePage() {
                             <>
                                 <button onClick={() => navigate('/favorites')} style={{ ...btnStyle, backgroundColor: 'white', color: '#4b5563', border: '1px solid #e5e7eb' }}><Heart size={18} color="#ef4444" /> Favoriler</button>
                                 {role === 'admin' && (
-                                    <button onClick={() => navigate('/admin')} style={{ ...btnStyle, backgroundColor: '#d97706' }}><Shield size={18} /> Panel</button>
+                                    <>
+                                        <button onClick={() => navigate('/admin')} style={{ ...btnStyle, backgroundColor: '#d97706' }}><Shield size={18} /> Panel</button>
+                                        <button onClick={openNewModal} style={{ ...btnStyle, backgroundColor: '#10b981', boxShadow: '0 4px 15px rgba(16, 185, 129, 0.4)' }}><Plus size={20} /> Yeni Etkinlik</button>
+                                    </>
                                 )}
                                 <button onClick={handleLogout} style={{ ...btnStyle, backgroundColor: '#ef4444' }}><LogOut size={18} /> Çıkış</button>
-                                <button onClick={openNewModal} style={{ ...btnStyle, backgroundColor: '#10b981', boxShadow: '0 4px 15px rgba(16, 185, 129, 0.4)' }}><Plus size={20} /> Yeni Etkinlik</button>
                             </>
                         ) : (
                             <button onClick={() => navigate('/login')} style={{ ...btnStyle, backgroundColor: '#4f46e5' }}><LogIn size={20} /> Giriş Yap</button>
@@ -245,7 +247,7 @@ export default function HomePage() {
                                         <div style={{ marginBottom: '10px' }}>{event.category && (<span style={{ fontSize: '0.7rem', color: '#d97706', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '1px', display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '5px' }}><Tag size={10} /> {event.category.name}</span>)}<h3 onClick={() => navigate(`/event/${event.id}`)} style={{ margin: 0, fontSize: '1.2rem', fontWeight: '700', color: '#1f2937', cursor: 'pointer' }}>{event.title}</h3></div>
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px', color: '#6b7280', fontSize: '0.85rem' }}><div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Calendar size={14} color="#4f46e5" /><span>{formatDate(event.date)}</span></div><div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><MapPin size={14} color="#d97706" /><span>{event.location}</span></div></div>
                                         <button onClick={() => navigate(`/event/${event.id}`)} style={{ width: '100%', padding: '10px', marginBottom: '10px', border: '1px solid #e5e7eb', borderRadius: '10px', backgroundColor: 'white', color: '#374151', cursor: 'pointer', fontWeight: '600', display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px' }}>Detayları Gör <ArrowRight size={16} /></button>
-                                        {isAuthenticated && (
+                                        {isAuthenticated && role === 'admin' && (
                                             <div style={{ marginTop: 'auto', paddingTop: '15px', borderTop: '1px solid #f3f4f6', display: 'flex', gap: '10px' }}>
                                                 <button onClick={() => handleEditClick(event)} style={{ flex: 1, padding: '8px', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', justifyContent: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: '600', backgroundColor: '#f9fafb', color: '#6b7280' }}><Edit2 size={16} /> Düzenle</button>
                                                 <button onClick={() => handleDelete(event.id)} style={{ flex: 1, padding: '8px', border: 'none', borderRadius: '8px', cursor: 'pointer', display: 'flex', justifyContent: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: '600', color: '#ef4444', backgroundColor: '#fef2f2' }}><Trash2 size={16} /></button>

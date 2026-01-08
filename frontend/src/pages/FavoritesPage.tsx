@@ -12,7 +12,7 @@ interface Event { id: number; title: string; description: string; date: string; 
 
 export default function FavoritesPage() {
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
+    const { isAuthenticated, token } = useAuth();
     const [favorites, setFavorites] = useState<Event[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -28,7 +28,9 @@ export default function FavoritesPage() {
     const fetchFavorites = async () => {
         setLoading(true);
         try {
-            const res = await api.get('/users/profile');
+            const res = await api.get('/users/profile', {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             // Backend profil içinde 'favorites' dizisi dönüyor
             setFavorites(res.data.favorites);
         } catch (error) {
@@ -40,7 +42,9 @@ export default function FavoritesPage() {
 
     const removeFavorite = async (eventId: number) => {
         try {
-            await api.delete(`/users/favorites/${eventId}`);
+            await api.delete(`/users/favorites/${eventId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
             // Listeden anlık olarak sil (tekrar istek atmaya gerek yok)
             setFavorites(prev => prev.filter(event => event.id !== eventId));
             toast.success("Listeden çıkarıldı.");
