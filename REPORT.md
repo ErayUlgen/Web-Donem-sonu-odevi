@@ -33,7 +33,7 @@ Projede toplam **4 temel tablo (Entity)** bulunmaktadır:
      - **Many-to-Many**: Bir kullanıcı birden fazla etkinliği favorileyebilir (`favorites`).
 
 2. **Event (Etkinlikler)**
-   - `id`, `title`, `description`, `date`, `location`, `imageUrl`, `isFree`, `categoryId`
+   - `id`, `title`, `description`, `date`, `location`, `imageUrl`, `isFree`, `price`, `categoryId`
    - **İlişkiler**:
      - **Many-to-One**: Bir etkinlik bir kategoriye aittir (`category`).
      - **One-to-Many**: Bir etkinliğe birden fazla yorum yapılabilir (`comments`).
@@ -76,6 +76,7 @@ erDiagram
         string location
         string imageUrl
         boolean isFree
+        decimal price
         boolean isActive
         int categoryId FK
     }
@@ -102,7 +103,7 @@ Proje bulut ortamına yüklenmeye hazırdır. Aşağıdaki adımları takip eder
 Proje şu anda **Neon (neondb)** üzerinde barındırılan bir PostgreSQL veritabanı kullanmaktadır. Bu veritabanı bulut tabanlıdır ve her yerden erişilebilir durumdadır.
 - `DATABASE_URL` bağlantı adresi backend `.env` dosyasında tanımlıdır.
 
-### Adım 2: Backend Dağıtımı (Render.com Örneği)
+### Adım 2: Backend Dağıtımı (Render.com)
 1. GitHub hesabınızda bir depo (repository) oluşturun ve kodları yükleyin.
 2. Render.com'a üye olun ve "New Web Service" seçeneğini tıklayın.
 3. GitHub deponuzu bağlayın.
@@ -112,20 +113,20 @@ Proje şu anda **Neon (neondb)** üzerinde barındırılan bir PostgreSQL verita
    - **Environment Variables**:
      - `DATABASE_URL`: `postgresql://neondb_owner:npg_pN0jb7KhkDyH@ep-holy-king-ag4umk0e-pooler.c-2.eu-central-1.aws.neon.tech/neondb?sslmode=require`
      - `JWT_SECRET`: (Güvenli bir şifre belirleyin)
-5. "Create Web Service" butonuna tıklayın. Render size bir URL verecektir (örn: `https://etkinlig-backend.onrender.com`).
+5. "Create Web Service" butonuna tıklayın.
+6. **Canlı Backend URL**: `https://web-donem-sonu-odevi.onrender.com`
 
-### Adım 3: Frontend Dağıtımı (Vercel Örneği)
+### Adım 3: Frontend Dağıtımı (Vercel)
 1. Vercel.com'a üye olun ve "Add New Project" deyin.
 2. GitHub deponuzu seçin.
-3. `frontend` klasörünü "Root Directory" olarak seçin (Eğer proje kök dizindeyse gerek yok, ama bizde `frontend` klasörü içinde).
+3. `frontend` klasörünü "Root Directory" olarak seçin.
 4. **Environment Variables** kısmına şunu ekleyin:
-   - `VITE_API_URL`: (Backend dağıtımından aldığınız URL, örn: `https://etkinlig-backend.onrender.com`)
+   - `VITE_API_URL`: `https://web-donem-sonu-odevi.onrender.com`
 5. "Deploy" butonuna tıklayın.
 
 ## 5. Proje Paylaşım Linki
-*(Dağıtım işlemi tamamlandıktan sonra buraya link eklenecektir)*
-- **Canlı Uygulama Linki**: [BURAYA_LINK_GELECEK]
-- **Backend API Linki**: [BURAYA_API_LINK_GELECEK]
+- **Canlı Backend API**: `https://web-donem-sonu-odevi.onrender.com`
+- **GitHub Reposu**: `https://github.com/ErayUlgen/Web-Donem-sonu-odevi.git`
 
 ---
 *Bu rapor Antigravity AI tarafından 08.01.2026 tarihinde oluşturulmuştur.*
