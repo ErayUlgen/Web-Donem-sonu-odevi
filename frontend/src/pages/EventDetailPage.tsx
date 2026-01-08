@@ -124,7 +124,7 @@ export default function EventDetailPage() {
                         </div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
                             <div style={{ backgroundColor: event.isFree ? '#d1fae5' : '#fee2e2', padding: '12px', borderRadius: '14px', color: event.isFree ? '#059669' : '#e11d48' }}><Tag size={28} /></div>
-                            <div><span style={{ display: 'block', fontSize: '0.85rem', color: colors.textSoft, fontWeight: '600' }}>ÜCRET</span><span style={{ fontSize: '1.1rem', fontWeight: '700', color: event.isFree ? '#059669' : '#e11d48' }}>{event.isFree ? "Ücretsiz" : "Biletli"}</span></div>
+                            <div><span style={{ display: 'block', fontSize: '0.85rem', color: colors.textSoft, fontWeight: '600' }}>ÜCRET</span><span style={{ fontSize: '1.1rem', fontWeight: '700', color: event.isFree ? '#059669' : '#e11d48' }}>{event.isFree ? "Ücretsiz" : `${event.price} TL`}</span></div>
                         </div>
                     </div>
 

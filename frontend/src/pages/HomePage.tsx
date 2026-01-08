@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 interface Category { id: number; name: string; }
-interface Event { id: number; title: string; description: string; date: string; location: string; imageUrl: string; isFree: boolean; category: Category; }
+interface Event { id: number; title: string; description: string; date: string; location: string; imageUrl: string; isFree: boolean; price: number; category: Category; }
 
 export default function HomePage() {
     const navigate = useNavigate();
@@ -33,6 +33,7 @@ export default function HomePage() {
         location: '',
         imageUrl: '', // Burası artık sadece düzenlerken eski resmi göstermek için
         isFree: false,
+        price: 0,
         categoryId: ''
     });
 
@@ -113,6 +114,7 @@ export default function HomePage() {
                 formData.append('date', newEvent.date);
                 formData.append('location', newEvent.location);
                 formData.append('isFree', String(newEvent.isFree));
+                formData.append('price', String(newEvent.price)); // Fiyat eklendi
                 formData.append('categoryId', newEvent.categoryId);
 
                 // Eğer dosya seçildiyse ekle
@@ -150,14 +152,14 @@ export default function HomePage() {
     const closeModal = () => { setIsModalOpen(false); resetForm(); };
 
     const resetForm = () => {
-        setNewEvent({ title: '', description: '', date: '', location: '', imageUrl: '', isFree: false, categoryId: '' });
+        setNewEvent({ title: '', description: '', date: '', location: '', imageUrl: '', isFree: false, price: 0, categoryId: '' });
         setEditingId(null);
         setSelectedFile(null); // Dosyayı sıfırla
     };
 
     const handleEditClick = (event: Event) => {
         setEditingId(event.id);
-        setNewEvent({ title: event.title, description: event.description, date: event.date, location: event.location, imageUrl: event.imageUrl, isFree: event.isFree, categoryId: event.category ? event.category.id.toString() : '' });
+        setNewEvent({ title: event.title, description: event.description, date: event.date, location: event.location, imageUrl: event.imageUrl, isFree: event.isFree, price: event.price, categoryId: event.category ? event.category.id.toString() : '' });
         setIsModalOpen(true);
     };
 
@@ -240,7 +242,7 @@ export default function HomePage() {
                                 <div key={event.id} className="animate-enter" style={{ animationDelay: `${index * 0.1}s`, backgroundColor: 'rgba(255,255,255,0.6)', borderRadius: '20px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.6)', boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)', transition: 'transform 0.2s', display: 'flex', flexDirection: 'column' }}>
                                     <div onClick={() => navigate(`/event/${event.id}`)} style={{ height: '180px', overflow: 'hidden', position: 'relative', cursor: 'pointer' }}>
                                         <img src={event.imageUrl} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80'; }} />
-                                        <div style={{ position: 'absolute', top: '10px', left: '10px' }}>{event.isFree ? <span style={{ backgroundColor: 'white', color: '#059669', padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '800' }}>ÜCRETSİZ</span> : <span style={{ backgroundColor: 'white', color: '#e11d48', padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '800' }}>ÜCRETLİ</span>}</div>
+                                        <div style={{ position: 'absolute', top: '10px', left: '10px' }}>{event.isFree ? <span style={{ backgroundColor: 'white', color: '#059669', padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '800' }}>ÜCRETSİZ</span> : <span style={{ backgroundColor: 'white', color: '#e11d48', padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '800' }}>{event.price} TL</span>}</div>
                                         <div onClick={(e) => toggleFavorite(e, event.id)} style={{ position: 'absolute', top: '10px', right: '10px', backgroundColor: 'rgba(255,255,255,0.9)', padding: '8px', borderRadius: '50%', cursor: 'pointer' }}><Heart size={20} color={favoriteIds.includes(event.id) ? '#ef4444' : '#64748b'} fill={favoriteIds.includes(event.id) ? '#ef4444' : 'none'} /></div>
                                     </div>
                                     <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
@@ -288,8 +290,15 @@ export default function HomePage() {
                                     <input type="date" name="date" value={newEvent.date} onChange={handleInputChange} style={inputStyle} />
                                     <input type="text" placeholder="Konum" name="location" value={newEvent.location} onChange={handleInputChange} style={inputStyle} />
                                 </div>
+
+                                {/* --- FİYAT ALANI --- */}
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'center' }}>
+                                    <input type="number" placeholder="Fiyat (TL)" name="price" value={newEvent.price} onChange={handleInputChange} style={inputStyle} disabled={newEvent.isFree} />
+                                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}><input type="checkbox" checked={newEvent.isFree} onChange={handleCheckboxChange} /> <span style={{ fontSize: '0.9rem', color: '#4b5563' }}>Ücretsiz Etkinlik</span></label>
+                                </div>
+                                {/* ------------------- */}
+
                                 <textarea placeholder="Açıklama" name="description" value={newEvent.description} onChange={handleInputChange} rows={3} style={{ ...inputStyle, resize: 'none' }} />
-                                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}><input type="checkbox" checked={newEvent.isFree} onChange={handleCheckboxChange} /> <span style={{ fontSize: '0.9rem', color: '#4b5563' }}>Ücretsiz Etkinlik</span></label>
                                 <button onClick={handleSubmit} style={{ ...btnStyle, backgroundColor: '#10b981', justifyContent: 'center' }}>{editingId ? 'Güncelle' : 'Oluştur'}</button>
                             </div>
                         </div>
