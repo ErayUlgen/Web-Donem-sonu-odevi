@@ -47,8 +47,52 @@ Projede toplam **4 temel tablo (Entity)** bulunmaktadır:
 4. **Comment (Yorumlar)**
    - `id`, `content`, `createdAt`, `userId`, `eventId`
    - **İlişkiler**:
-     - **Many-to-One**: Bir yorum bir kullanıcıya aittir.
      - **Many-to-One**: Bir yorum bir etkinliğe aittir.
+
+### Veritabanı Diyagramı (ER Diagram)
+
+```mermaid
+erDiagram
+    User ||--o{ Comment : "makes"
+    User }|--|{ Event : "favorites"
+    Category ||--|{ Event : "contains"
+    Event ||--o{ Comment : "has"
+
+    User {
+        int id PK
+        string firstName
+        string lastName
+        string email
+        string password
+        string role "user/admin"
+        boolean isActive
+    }
+
+    Event {
+        int id PK
+        string title
+        string description
+        datetime date
+        string location
+        string imageUrl
+        boolean isFree
+        boolean isActive
+        int categoryId FK
+    }
+
+    Category {
+        int id PK
+        string name
+    }
+
+    Comment {
+        int id PK
+        string content
+        datetime createdAt
+        int userId FK
+        int eventId FK
+    }
+```
 
 ## 4. Dağıtım (Deployment) Adımları
 

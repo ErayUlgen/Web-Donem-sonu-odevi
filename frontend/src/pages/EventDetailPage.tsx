@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../api';
 import { Calendar, MapPin, ArrowLeft, Tag, MessageCircle, Send, User, Trash2 } from 'lucide-react';
 import { format } from 'date-fns';
 import { tr } from 'date-fns/locale';
@@ -34,13 +34,13 @@ export default function EventDetailPage() {
     }, [id]);
 
     const fetchEventData = () => {
-        axios.get(`http://localhost:3000/events/${id}`)
+        api.get(`/events/${id}`)
             .then(res => setEvent(res.data))
             .catch(err => console.error(err));
     };
 
     const fetchComments = () => {
-        axios.get(`http://localhost:3000/comments/event/${id}`)
+        api.get(`/comments/event/${id}`)
             .then(res => setComments(res.data))
             .catch(err => console.error("Yorumlar çekilemedi", err));
     };
@@ -54,7 +54,7 @@ export default function EventDetailPage() {
 
         setLoading(true);
         try {
-            await axios.post('http://localhost:3000/comments', {
+            await api.post('/comments', {
                 content: newComment,
                 eventId: Number(id)
             }, {
@@ -75,7 +75,7 @@ export default function EventDetailPage() {
         if (!window.confirm("Yorumu silmek istediğine emin misin?")) return;
 
         try {
-            await axios.delete(`http://localhost:3000/comments/${commentId}`, {
+            await api.delete(`/comments/${commentId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             toast.success("Yorum silindi.");
