@@ -26,6 +26,9 @@ export class Event {
   @Column({ default: false })
   isFree: boolean;
 
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  price: number;
+
   @Column({ default: true })
   isActive: boolean;
 
