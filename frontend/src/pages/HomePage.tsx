@@ -288,11 +288,23 @@ export default function HomePage() {
                                 {/* ------------------------------- */}
 
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                                    <input type="date" name="date" value={newEvent.date} onChange={handleInputChange} style={inputStyle} />
+                                    <input type="text" placeholder="Konum" name="location" value={newEvent.location} onChange={handleInputChange} style={inputStyle} />
                                 </div>
-                            </div>
-                )}
 
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', alignItems: 'center' }}>
+                                    <input type="number" placeholder="Fiyat (TL)" name="price" value={newEvent.price} onChange={handleInputChange} style={inputStyle} disabled={newEvent.isFree} min="0" />
+                                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}><input type="checkbox" checked={newEvent.isFree} onChange={handleCheckboxChange} /> <span style={{ fontSize: '0.9rem', color: '#4b5563' }}>Ücretsiz Etkinlik</span></label>
+                                </div>
+
+                                <textarea placeholder="Açıklama" name="description" value={newEvent.description} onChange={handleInputChange} rows={3} style={{ ...inputStyle, resize: 'none' }} />
+                                <button onClick={handleSubmit} style={{ ...btnStyle, backgroundColor: '#10b981', justifyContent: 'center' }}>{editingId ? 'Güncelle' : 'Oluştur'}</button>
+                            </div>
                         </div>
                     </div>
-                );
+                )}
+
+            </div>
+        </div>
+    );
 }
